@@ -180,23 +180,11 @@ plt.show()
 - 考点：必须先 `detach()` 再 `.numpy()`，否则报错
 
 ---
+# Lab2 错误汇总
+## model默认为float32,当输入为float16时需要进行model=nn.Linear(input_size,output_size).half()
+## 从numpy转换为tensor且为float16的标准代码：X = torch.from_numpy(X_numpy.astype(np.float16))
+## 自动微分 标量损失（Scalar Loss）：直接backward() 向量微分y.backward(gradient=torch.ones(len(y)))
+直接对一个包含多个元素的张量 y 求导时，如果不给参数，PyTorch 会报错
+传全 1 向量是最常用的做法，其物理意义是：假设 y 中的每一个分量对最终结果的影响权重都是一样的（权重为 1）。
 
-## 七、练习题汇总
 
-### pytorch_preliminary.ipynb（Exercise 1-4）
-| 练习 | 内容 |
-|------|------|
-| Exercise 1 | 张量创建与形状操作：`arange`、`reshape`、`zeros`、`ones`、`randn` |
-| Exercise 2 | 索引与切片：基本索引、多维索引、布尔索引、花式索引 |
-| Exercise 3 | 数学运算：逐元素运算、点积、余弦相似度 |
-| Exercise 4 | 广播机制：不同形状张量相加、`torch.mean()` 按列求均值 |
-
-### linear_regression.ipynb（Exercise 1-6）
-| 练习 | 内容 |
-|------|------|
-| Exercise 1 | `torch.from_numpy()` 将 numpy 数组转为 tensor |
-| Exercise 2 | 使用 `nn.Linear(1,1)` 创建线性模型 |
-| Exercise 3 | 定义损失函数 `nn.MSELoss()` |
-| Exercise 4 | 定义优化器 `torch.optim.SGD(model.parameters(), lr=0.01)` |
-| Exercise 5 | 实现训练循环：前向传播 + 计算损失 |
-| Exercise 6 | `.detach().numpy()` 转换后用 Matplotlib 画图 |
